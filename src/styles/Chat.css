@@ -46,6 +46,7 @@
   margin-bottom: 10px;
   max-width: 80%;
   word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .message.user {
@@ -56,6 +57,16 @@
 .message.ai {
   background-color: #444654;
   align-self: flex-start;
+}
+
+.message .react-markdown p,
+.message .react-markdown h1,
+.message .react-markdown h2,
+.message .react-markdown h3,
+.message .react-markdown h4,
+.message .react-markdown h5,
+.message .react-markdown h6 {
+  margin: 0;
 }
 
 .chat-input-container {

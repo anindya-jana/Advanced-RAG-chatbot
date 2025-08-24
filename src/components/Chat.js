@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import '../styles/Chat.css';
 import CodeBlock from './CodeBlock';
 
@@ -31,7 +32,7 @@ const Chat = ({ session, onSendMessage }) => {
   return (
     <div className="chat">
       <div className="chat-header">
-        <h2>Gemini 2.5 Pro Chat</h2>
+        <h2>Gemini 2.5 Pro Chat v1.2</h2>
         <p>(Created by Anindya)</p>
       </div>
       <div className="chat-messages">
@@ -40,21 +41,34 @@ const Chat = ({ session, onSendMessage }) => {
             <h2>What can I help with?</h2>
           </div>
         )}
-        {session.messages.map((msg, index) => {
-          const parts = msg.text.split(/(```[\s\S]*?```)/g);
-          return (
-            <div key={index} className={`message ${msg.sender}`}>
-              {parts.map((part, i) => {
-                if (part.startsWith('```') && part.endsWith('```')) {
-                  const language = part.match(/```(\w+)/)?.[1] || 'javascript';
-                  const code = part.slice(language.length + 3, -3);
-                  return <CodeBlock key={i} language={language} value={code} />;
-                }
-                return part;
-              })}
-            </div>
-          );
-        })}
+        {session.messages.map((msg, index) => (
+          <div key={index} className={`message ${msg.sender}`}>
+            <ReactMarkdown
+              components={{
+                h1: ({ node, ...props }) => <h1 style={{ fontSize: '1.5em', margin: 0 }} {...props} />,
+                h2: ({ node, ...props }) => <h2 style={{ fontSize: '1.3em', margin: 0 }} {...props} />,
+                h3: ({ node, ...props }) => <h3 style={{ fontSize: '1.1em', fontWeight: 'bold', margin: 0 }} {...props} />,
+                p: ({ node, ...props }) => <p style={{ margin: 0 }} {...props} />,
+                code({ node, inline, className, children, ...props }) {
+                  const match = /language-(\w+)/.exec(className || '');
+                  return !inline && match ? (
+                    <CodeBlock
+                      language={match[1]}
+                      value={String(children).replace(/\n$/, '')}
+                      {...props}
+                    />
+                  ) : (
+                    <code className={className} {...props}>
+                      {children}
+                    </code>
+                  );
+                },
+              }}
+            >
+              {msg.text}
+            </ReactMarkdown>
+          </div>
+        ))}
         {loading && <div className="message ai">Thinking...</div>}
       </div>
       <div className="chat-input-container">

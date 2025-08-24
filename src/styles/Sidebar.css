@@ -6,11 +6,15 @@
   flex-direction: column;
   height: 100vh;
   flex-shrink: 0;
+  transition: width 0.3s;
 }
 
 .sidebar-header {
   padding: 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .new-chat-button {
@@ -36,6 +40,9 @@
 }
 
 .session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
   cursor: pointer;
   border-radius: 5px;
@@ -47,4 +54,61 @@
 
 .session-item.active {
   background-color: rgba(255, 255, 255, 0.2);
+}
+
+.delete-session-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2em;
+  padding: 5px;
+}
+
+.delete-session-button:hover {
+  color: #ef4444;
+}
+
+.hamburger-menu {
+  display: none;
+  cursor: pointer;
+}
+
+.sidebar-footer {
+  padding: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.model-toggle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.model-toggle button {
+  width: 48%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+.model-toggle button.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 0;
+    overflow: hidden;
+  }
+
+  .sidebar.open {
+    width: 260px;
+  }
+
+  .hamburger-menu {
+    display: block;
+  }
 }

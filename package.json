@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-markdown": "^10.1.0",
     "react-scripts": "5.0.1",
     "react-syntax-highlighter": "^15.6.1",
     "web-vitals": "^2.1.4"
@@ -21,7 +22,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "npx gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

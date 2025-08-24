@@ -3,41 +3,36 @@ import './App.css';
 import Sidebar from './components/Sidebar';
 import Chat from './components/Chat';
 import LoginPage from './components/LoginPage';
-import { createChatSession } from './api/gemini';
+import ApiKeySelectionPage from './components/ApiKeySelectionPage';
+import { createChatSession, initializeApi } from './api/gemini';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [sessions, setSessions] = useState(() => {
-    const savedSessions = localStorage.getItem('chatSessions');
-    if (savedSessions) {
-      const parsedSessions = JSON.parse(savedSessions);
-      return parsedSessions.map(session => ({
-        ...session,
-        chat: createChatSession(), // Re-create chat session
-      }));
-    }
-    return [];
-  });
+  const [apiKey, setApiKey] = useState(null);
+  const [model, setModel] = useState('gemini-2.5-pro');
+  const [sessions, setSessions] = useState([]);
   const [activeSession, setActiveSession] = useState(null);
 
   useEffect(() => {
-    if (sessions.length === 0) {
+    if (apiKey && sessions.length === 0) {
       handleNewChat();
-    } else if (!activeSession && sessions.length > 0) {
+    } else if (apiKey && !activeSession && sessions.length > 0) {
       setActiveSession(sessions[0].id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [apiKey]);
 
   useEffect(() => {
-    const sessionsToSave = sessions.map(({ id, messages }) => ({ id, messages }));
-    localStorage.setItem('chatSessions', JSON.stringify(sessionsToSave));
+    if (sessions.length > 0) {
+      const sessionsToSave = sessions.map(({ id, messages }) => ({ id, messages }));
+      localStorage.setItem('chatSessions', JSON.stringify(sessionsToSave));
+    }
   }, [sessions]);
 
   const handleNewChat = () => {
     const newSession = {
       id: Date.now(),
-      chat: createChatSession(),
+      chat: createChatSession(model),
       messages: [],
     };
     setSessions(prevSessions => [...prevSessions, newSession]);
@@ -46,6 +41,18 @@ function App() {
 
   const handleSelectSession = (id) => {
     setActiveSession(id);
+  };
+
+  const handleSetModel = (model) => {
+    setModel(model);
+  };
+
+  const handleDeleteSession = (id) => {
+    const updatedSessions = sessions.filter(session => session.id !== id);
+    setSessions(updatedSessions);
+    if (activeSession === id) {
+      setActiveSession(updatedSessions.length > 0 ? updatedSessions[0].id : null);
+    }
   };
 
   const handleSendMessage = async (message, image) => {
@@ -91,8 +98,27 @@ function App() {
 
   const activeChat = sessions.find(session => session.id === activeSession);
 
+  const handleApiKeySelect = (key) => {
+    initializeApi(key);
+    setApiKey(key);
+    const savedSessions = localStorage.getItem('chatSessions');
+    if (savedSessions) {
+      const parsedSessions = JSON.parse(savedSessions);
+      setSessions(parsedSessions.map(session => ({
+        ...session,
+        chat: createChatSession(model), // Re-create chat session
+      })));
+    } else {
+      handleNewChat();
+    }
+  };
+
   if (!isLoggedIn) {
     return <LoginPage onLogin={() => setIsLoggedIn(true)} />;
+  }
+
+  if (!apiKey) {
+    return <ApiKeySelectionPage onApiKeySelect={handleApiKeySelect} />;
   }
 
   return (
@@ -102,6 +128,9 @@ function App() {
         onNewChat={handleNewChat}
         onSelectSession={handleSelectSession}
         activeSession={activeSession}
+        onDeleteSession={handleDeleteSession}
+        onSetModel={handleSetModel}
+        model={model}
       />
       {activeChat && <Chat session={activeChat} onSendMessage={handleSendMessage} />}
     </div>
