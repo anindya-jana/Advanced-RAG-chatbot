@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Advanced-RAG-chatbot/static/css/main.6178512c.css",
-    "main.js": "/Advanced-RAG-chatbot/static/js/main.6c16dbee.js",
+    "main.js": "/Advanced-RAG-chatbot/static/js/main.aaf8534b.js",
     "static/js/453.1936795a.chunk.js": "/Advanced-RAG-chatbot/static/js/453.1936795a.chunk.js",
     "index.html": "/Advanced-RAG-chatbot/index.html",
     "main.6178512c.css.map": "/Advanced-RAG-chatbot/static/css/main.6178512c.css.map",
-    "main.6c16dbee.js.map": "/Advanced-RAG-chatbot/static/js/main.6c16dbee.js.map",
+    "main.aaf8534b.js.map": "/Advanced-RAG-chatbot/static/js/main.aaf8534b.js.map",
     "453.1936795a.chunk.js.map": "/Advanced-RAG-chatbot/static/js/453.1936795a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6178512c.css",
-    "static/js/main.6c16dbee.js"
+    "static/js/main.aaf8534b.js"
   ]
 }
