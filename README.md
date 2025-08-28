@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Advanced RAG Chatbot
+
+**Live Demo:** [https://anindya-jana.github.io/Advanced-RAG-chatbot/](https://anindya-jana.github.io/Advanced-RAG-chatbot/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
