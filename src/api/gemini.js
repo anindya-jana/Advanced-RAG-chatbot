@@ -3,9 +3,6 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 let genAI;
 
 export function initializeApi(apiKey) {
-  if (apiKey === 'paid') {
-    apiKey = process.env.REACT_APP_GEMINI_API_KEY;
-  }
   genAI = new GoogleGenerativeAI(apiKey);
 }
 

@@ -9,7 +9,7 @@ import { createChatSession, initializeApi } from './api/gemini';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [apiKey, setApiKey] = useState(null);
-  const [model, setModel] = useState('gemini-2.5-pro');
+  const [model, setModel] = useState('gemini-2.5-flash');
   const [sessions, setSessions] = useState([]);
   const [activeSession, setActiveSession] = useState(null);
 

@@ -32,7 +32,7 @@ const Chat = ({ session, onSendMessage }) => {
   return (
     <div className="chat">
       <div className="chat-header">
-        <h2>Gemini 2.5 Pro Chat v1.2</h2>
+        <h2>Gemini 2.5 Flash Chat v1.3</h2>
         <p>(Created by Anindya)</p>
       </div>
       <div className="chat-messages">
@@ -90,7 +90,7 @@ const Chat = ({ session, onSendMessage }) => {
             disabled={loading}
           />
           <button className="send-button" onClick={handleSend} disabled={loading}>
-            >
+            {'>'}
           </button>
         </div>
         {image && (
